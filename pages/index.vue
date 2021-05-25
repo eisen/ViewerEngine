@@ -46,6 +46,10 @@
         <div v-else class="games"></div>
       </div>
     </div>
+    <div class="footer-bar">
+      <img class="rtx-logo" src="TemplateData/rtx-logo.svg" />
+      <div class="header right-align">RTX Hackathon 2021</div>
+    </div>
   </section>
 </template>
 
@@ -237,7 +241,19 @@ body {
   font-size: 25px;
 }
 
-.title-bar > .header {
+.footer-bar {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 50px;
+  text-align: center;
+  font-size: 25px;
+  overflow: hidden;
+}
+
+.title-bar > .header,
+.footer-bar > .header {
   border: none;
 }
 
@@ -266,8 +282,9 @@ body {
   top: 50%;
   left: 0px;
   right: 0px;
-  bottom: 0px;
+  bottom: 50px;
   background-color: white;
+  border-bottom: 2px solid #ce1126;
 }
 
 .header {
@@ -275,6 +292,10 @@ body {
   font-weight: bold;
   color: #ce1126;
   border-bottom: 2px solid #ce1126;
+}
+
+.right-align {
+  text-align: right;
 }
 
 .participants-wrapper,
@@ -325,5 +346,11 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.rtx-logo {
+  position: absolute;
+  left: 10px;
+  height: 50px;
 }
 </style>
