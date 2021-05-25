@@ -1,23 +1,75 @@
 <template>
-  <div id="unity-container" class="unity-desktop">
-    <canvas id="unity-canvas"></canvas>
-    <div id="rtx-loading-bar">
-      <div id="rtx-logo"></div>
-      <div id="rtx-progress-bar-empty">
-        <div id="rtx-progress-bar-full"></div>
+  <section>
+    <transition name="fade">
+      <div v-if="show" id="rtx-loading-bar">
+        <div id="rtx-logo"></div>
+        <div id="rtx-progress-bar-empty">
+          <div id="rtx-progress-bar-full"></div>
+        </div>
+      </div>
+    </transition>
+    <div class="title-bar">
+      <div class="header">Othello Challenge</div>
+    </div>
+    <div class="clients-wrapper">
+      <div class="header">Participants</div>
+      <div class="participants-wrapper">
+        <div v-if="NoParticipants" class="no-participants-yet">
+          Waiting for participants to connect...
+        </div>
+        <div v-else class="participants">
+          <div class="participant">
+            <div class="participant-name">Participant 1</div>
+            <div class="participant-scores">
+              <div class="participant-score">W: 0</div>
+              <div class="participant-score">L: 0</div>
+              <div class="participant-score">T: 0</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="unity-mobile-warning">
-      WebGL builds are not supported on mobile devices.
+    <div class="unity-wrapper">
+      <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
+        <div id="unity-mobile-warning">
+          WebGL builds are not supported on mobile devices.
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="tournament-wrapper">
+      <div class="header">Active Games</div>
+      <div class="games-wrapper">
+        <div v-if="NoGames" class="no-games-yet">
+          The tournament hasn't started yet
+        </div>
+        <div v-else class="games"></div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
 export default {
   /* global createUnityInstance */
+  /* eslint object-shorthand: "off" */
 
-  mounted: () => {
+  data: function () {
+    return {
+      show: true,
+      participant_count: 0,
+      game_count: 0,
+    }
+  },
+  computed: {
+    NoParticipants: function () {
+      return this.participant_count === 0
+    },
+    NoGames: function () {
+      return this.game_count === 0
+    },
+  },
+  mounted: function () {
     const buildUrl = 'Build'
     const loaderUrl = buildUrl + '/static.loader.js'
     const config = {
@@ -52,20 +104,18 @@ export default {
       setTimeout(() => {
         mobileWarning.style.display = 'none'
       }, 5000)
-    } else {
-      canvas.style.width = '1280px'
-      canvas.style.height = '720px'
     }
     loadingBar.style.display = 'block'
 
     const script = document.createElement('script')
+    // const that = this
     script.src = loaderUrl
     script.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + '%'
       })
         .then((unityInstance) => {
-          loadingBar.style.display = 'none'
+          this.show = false // Hide loading bar
         })
         .catch((message) => {
           alert(message)
@@ -87,9 +137,8 @@ body {
 }
 
 #unity-container.unity-desktop {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
 }
 
 #unity-container.unity-mobile {
@@ -99,6 +148,9 @@ body {
 
 #unity-canvas {
   background: white;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ce1126;
 }
 
 .unity-mobile #unity-canvas {
@@ -108,15 +160,17 @@ body {
 
 #rtx-loading-bar {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: white;
+  z-index: 10;
 }
 
 #rtx-logo {
-  width: 400px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   background: url('static/TemplateData/rtx-logo.svg') no-repeat center;
 }
 
@@ -126,14 +180,23 @@ body {
   margin-top: 10px;
   background: url('static/TemplateData/progress-bar-empty-rtx.png') no-repeat
     center;
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  z-index: 20;
+  transform: translate(-50%, -50%);
 }
 
 #rtx-progress-bar-full {
   width: 0%;
   height: 18px;
-  margin-top: 10px;
   background: url('static/TemplateData/progress-bar-full-rtx.png') no-repeat
     center;
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  z-index: 20;
+  transform: translate(-50%, -50%);
 }
 
 #unity-footer {
@@ -160,5 +223,107 @@ body {
   background: white;
   padding: 10px;
   display: none;
+}
+
+.title-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 50px;
+  text-align: center;
+  padding: 10px;
+  padding-top: 0px;
+  font-size: 25px;
+}
+
+.title-bar > .header {
+  border: none;
+}
+
+.clients-wrapper {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  bottom: 50%;
+  width: 50%;
+  background-color: white;
+  border-bottom: 2px solid #ce1126;
+  border-top: 2px solid #ce1126;
+}
+
+.unity-wrapper {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  bottom: 50%;
+  width: 50%;
+  background-color: white;
+}
+
+.tournament-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: white;
+}
+
+.header {
+  padding: 10px;
+  font-weight: bold;
+  color: #ce1126;
+  border-bottom: 2px solid #ce1126;
+}
+
+.participants-wrapper,
+.games-wrapper {
+  position: absolute;
+  overflow-y: auto;
+  top: 40px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.participants {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-between;
+}
+
+.participant {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #ce1126;
+  border-radius: 5px;
+}
+
+.participant-scores {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.participant-score {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.no-participants-yet {
+  color: #ce1126;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.no-games-yet {
+  color: #ce1126;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
