@@ -43,7 +43,17 @@
         <div v-if="NoGames" class="no-games-yet">
           The tournament hasn't started yet
         </div>
-        <div v-else class="games"></div>
+        <div v-else class="games">
+          <div class="game">
+            <div class="game-state"><span>VS</span></div>
+            <div class="black-contender"><span>P1</span></div>
+            <div class="white-contender"><span>P2</span></div>
+            <div class="scores">
+              <div class="black-score">64</div>
+              <div class="white-score">64</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer-bar">
@@ -308,7 +318,8 @@ body {
   bottom: 0px;
 }
 
-.participants {
+.participants,
+.games {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -352,5 +363,87 @@ body {
   position: absolute;
   left: 10px;
   height: 50px;
+}
+
+.game {
+  position: relative;
+  border: 2px solid #ce1126;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px;
+  width: 200px;
+  height: 50px;
+}
+
+.game-state {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 30px;
+  background-color: #ce1126;
+  color: white;
+}
+
+.game-state > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.black-contender > span,
+.white-contender > span {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+.black-contender {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  bottom: 50%;
+  width: 125px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: black;
+  color: white;
+}
+
+.white-contender {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  bottom: 0px;
+  width: 125px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  color: black;
+}
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 41px;
+  border-left: 2px solid #ce1126;
+}
+
+.black-score {
+  background-color: white;
+  color: black;
+}
+
+.white-score {
+  background-color: white;
+  color: black;
 }
 </style>
