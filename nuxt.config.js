@@ -32,8 +32,14 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+
+  ],
+
+  env: {
+    WS_URL: process.env.WS_URL || 'http://localhost:8080/viewers'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {}
 }

@@ -18,12 +18,22 @@
           Waiting for participants to connect...
         </div>
         <div v-else class="participants">
-          <div class="participant">
-            <div class="participant-name">Participant 1</div>
+          <div
+            v-for="participant in participants"
+            :key="participant.id"
+            class="participant"
+          >
+            <div class="participant-name">{{ participant.name }}</div>
             <div class="participant-scores">
-              <div class="participant-score">W: 0</div>
-              <div class="participant-score">L: 0</div>
-              <div class="participant-score">T: 0</div>
+              <div class="participant-score">
+                W: {{ participant.win_count }}
+              </div>
+              <div class="participant-score">
+                L: {{ participant.lost_count }}
+              </div>
+              <div class="participant-score">
+                T: {{ participant.tie_count }}
+              </div>
             </div>
           </div>
         </div>
@@ -44,13 +54,29 @@
           The tournament hasn't started yet
         </div>
         <div v-else class="games">
-          <div class="game">
-            <div class="game-state"><span>VS</span></div>
-            <div class="black-contender"><span>P1</span></div>
-            <div class="white-contender"><span>P2</span></div>
+          <div
+            v-for="game in games"
+            :key="game.id"
+            class="game"
+            @click="DisplayGame(game.id)"
+          >
+            <div v-if="game.ended" class="game-state-ended">
+              <span>VS</span>
+            </div>
+            <div v-else class="game-state-active"><span>VS</span></div>
+            <div class="black-contender">
+              <span>{{ game.black }}</span>
+            </div>
+            <div class="white-contender">
+              <span>{{ game.white }}</span>
+            </div>
             <div class="scores">
-              <div class="black-score">64</div>
-              <div class="white-score">64</div>
+              <div class="black-score">
+                {{ game.board.split('1').length - 1 }}
+              </div>
+              <div class="white-score">
+                {{ game.board.split('2').length - 1 }}
+              </div>
             </div>
           </div>
         </div>
@@ -64,24 +90,42 @@
 </template>
 
 <script>
+import socket from '~/plugins/socket.io.js'
+
 export default {
   /* global createUnityInstance */
   /* eslint object-shorthand: "off" */
 
   data: function () {
     return {
+      app: null,
       show: true,
-      participant_count: 0,
-      game_count: 0,
+      participants: [],
+      games: [],
     }
   },
   computed: {
     NoParticipants: function () {
-      return this.participant_count === 0
+      return this.participants.length === 0
     },
     NoGames: function () {
-      return this.game_count === 0
+      return this.games.length === 0
     },
+  },
+  beforeMount: function () {
+    socket.on('participants-list', (data) => {
+      this.participants = data
+    })
+
+    socket.on('games-list', (data) => {
+      this.games = data
+    })
+
+    socket.on('disconnect', () => {
+      this.participants = []
+      this.games = []
+      this.app.SendMessage('Base', 'ClearBoard')
+    })
   },
   mounted: function () {
     const buildUrl = 'Build'
@@ -129,13 +173,25 @@ export default {
         progressBarFull.style.width = 100 * progress + '%'
       })
         .then((unityInstance) => {
+          this.app = unityInstance
           this.show = false // Hide loading bar
+          this.app.SendMessage(
+            'Base',
+            'ConnectToServer',
+            'localhost:8080/viewers'
+          )
         })
         .catch((message) => {
           alert(message)
         })
     }
     document.body.appendChild(script)
+  },
+  methods: {
+    DisplayGame: function (gameID) {
+      this.app.SendMessage('Base', 'ClearBoard')
+      this.app.SendMessage('Base', 'GetGameStatus', gameID)
+    },
   },
 }
 </script>
@@ -373,9 +429,14 @@ body {
   margin: 10px;
   width: 200px;
   height: 50px;
+  cursor: pointer;
 }
 
-.game-state {
+.game:hover {
+  border: 3px solid #ce1126;
+}
+
+.game-state-active {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -385,7 +446,18 @@ body {
   color: white;
 }
 
-.game-state > span {
+.game-state-ended {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 30px;
+  background-color: gray;
+  color: white;
+}
+
+.game-state-active > span,
+.game-state-ended > span {
   position: absolute;
   top: 50%;
   left: 50%;
