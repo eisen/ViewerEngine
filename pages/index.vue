@@ -189,7 +189,6 @@ export default {
   },
   methods: {
     DisplayGame: function (gameID) {
-      this.app.SendMessage('Base', 'ClearBoard')
       this.app.SendMessage('Base', 'GetGameStatus', gameID)
     },
   },
