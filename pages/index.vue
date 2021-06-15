@@ -131,13 +131,13 @@ export default {
     const buildUrl = 'Build'
     const loaderUrl = buildUrl + '/static.loader.js'
     const config = {
-      dataUrl: buildUrl + '/static.data',
-      frameworkUrl: buildUrl + '/static.framework.js',
-      codeUrl: buildUrl + '/static.wasm',
+      dataUrl: buildUrl + '/static.data.gz',
+      frameworkUrl: buildUrl + '/static.framework.js.gz',
+      codeUrl: buildUrl + '/static.wasm.gz',
       streamingAssetsUrl: 'StreamingAssets',
       companyName: 'Raytheon Technologies',
       productName: 'Othello',
-      productVersion: '0.1',
+      productVersion: '1.0',
     }
 
     const container = document.querySelector('#unity-container')
