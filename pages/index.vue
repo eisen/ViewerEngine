@@ -131,9 +131,9 @@ export default {
     const buildUrl = 'Build'
     const loaderUrl = buildUrl + '/static.loader.js'
     const config = {
-      dataUrl: buildUrl + '/static.data.gz',
-      frameworkUrl: buildUrl + '/static.framework.js.gz',
-      codeUrl: buildUrl + '/static.wasm.gz',
+      dataUrl: buildUrl + '/static.data',
+      frameworkUrl: buildUrl + '/static.framework.js',
+      codeUrl: buildUrl + '/static.wasm',
       streamingAssetsUrl: 'StreamingAssets',
       companyName: 'Raytheon Technologies',
       productName: 'Othello',
