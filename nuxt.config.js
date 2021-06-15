@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ViewerEngine',
+    title: 'Othello Challenge - RTX Hackathon 2021',
     htmlAttrs: {
       lang: 'en',
     },
@@ -37,7 +37,7 @@ export default {
   ],
 
   env: {
-    WS_URL: process.env.WS_URL || 'http://localhost:8080/viewers'
+    WS_URL: process.env.WS_URL || 'http://engine.rtx-hackathon.xyz:8080/viewers'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
