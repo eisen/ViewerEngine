@@ -196,12 +196,17 @@ export default {
 </script>
 
 <style>
+html {
+  height: 100%;
+}
+
 body {
   padding: 0;
   margin: 0;
+  height: 100%;
   background-image: url('~@/static/TemplateData/Hackathon_Globe_2021.png');
+  background-size: 50%;
   background-position: center;
-  background-size: contain;
   background-repeat: no-repeat;
 }
 
@@ -220,7 +225,7 @@ body {
 }
 
 #unity-canvas {
-  background: white;
+  background: transparent;
   width: 100%;
   height: 100%;
   border: 2px solid #ce1126;
@@ -342,7 +347,6 @@ body {
   right: 0px;
   bottom: 50%;
   width: 50%;
-  background-color: white;
 }
 
 .tournament-wrapper {
