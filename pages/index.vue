@@ -199,6 +199,10 @@ export default {
 body {
   padding: 0;
   margin: 0;
+  background-image: url('~@/static/TemplateData/Hackathon_Globe_2021.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 #unity-container {
@@ -328,7 +332,6 @@ body {
   left: 0px;
   bottom: 50%;
   width: 50%;
-  background-color: white;
   border-bottom: 2px solid #ce1126;
   border-top: 2px solid #ce1126;
 }
@@ -348,7 +351,6 @@ body {
   left: 0px;
   right: 0px;
   bottom: 50px;
-  background-color: white;
   border-bottom: 2px solid #ce1126;
 }
 
