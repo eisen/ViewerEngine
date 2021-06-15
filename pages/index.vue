@@ -178,7 +178,7 @@ export default {
           this.app.SendMessage(
             'Base',
             'ConnectToServer',
-            'engine.rtx-hackathon.xyz:8080/viewers'
+            'engine.rtx-hackathon.xyz/viewers'
           )
         })
         .catch((message) => {
