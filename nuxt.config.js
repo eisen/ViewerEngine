@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Othello Challenge - RTX Hackathon 2021',
+    title: 'Othello - 2021 RMD Hackathon',
     htmlAttrs: {
       lang: 'en',
     },
