@@ -84,7 +84,7 @@
     </div>
     <div class="footer-bar">
       <img class="rtx-logo" src="TemplateData/rtx-logo.svg" />
-      <div class="header right-align">RTX Hackathon 2021</div>
+      <div class="header right-align">2021 RMD Hackathon</div>
     </div>
   </section>
 </template>
@@ -178,7 +178,7 @@ export default {
           this.app.SendMessage(
             'Base',
             'ConnectToServer',
-            'engine.rtx-hackathon.xyz:8080/viewers'
+            'engine.rmd-hackathon.xyz:8080/viewers'
           )
         })
         .catch((message) => {
