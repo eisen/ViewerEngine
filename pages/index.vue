@@ -52,7 +52,14 @@
       </div>
     </div>
     <div class="tournament-wrapper">
-      <div class="header">Active Games</div>
+      <div class="header">
+        Active Games
+        <div class="disconnected-color">Disconnected</div>
+        <div class="completed-color">Finished</div>
+        <div class="active-color">Running</div>
+        <div class="pending-color">Waiting</div>
+        <div class="status-legend">Game Status:</div>
+      </div>
       <div class="games-wrapper">
         <div v-if="NoGames" class="no-games-yet">
           The tournament hasn't started yet
@@ -574,5 +581,67 @@ body {
   bottom: 0px;
   width: 41px;
   border-left: 2px solid #ce1126;
+}
+
+.pending-color {
+  background-color: orange;
+  border: 2px solid #ce1126;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  float: right;
+  font-size: 10px;
+  margin-left: 5px;
+  position: relative;
+  top: -3px;
+}
+
+.active-color {
+  background-color: #ce1126;
+  border: 2px solid #ce1126;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  float: right;
+  font-size: 10px;
+  margin-left: 5px;
+  position: relative;
+  top: -3px;
+}
+
+.completed-color {
+  background-color: blue;
+  border: 2px solid #ce1126;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  float: right;
+  font-size: 10px;
+  margin-left: 5px;
+  position: relative;
+  top: -3px;
+}
+
+.disconnected-color {
+  background-color: gray;
+  border: 2px solid #ce1126;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  float: right;
+  font-size: 10px;
+  margin-left: 5px;
+  position: relative;
+  top: -3px;
+}
+
+.status-legend {
+  padding: 5px;
+  color: #ce1126;
+  float: right;
+  font-size: 12px;
+  margin-left: 5px;
+  position: relative;
+  top: -2px;
 }
 </style>
