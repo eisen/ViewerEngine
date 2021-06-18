@@ -22,6 +22,7 @@
             v-for="participant in participants"
             :key="participant.id"
             class="participant"
+            @click="Filter(participant.name)"
           >
             <div class="participant-name">{{ participant.name }}</div>
             <div class="participant-scores">
@@ -61,6 +62,12 @@
             @click="DisplayGame(game.id)"
           >
             <div v-if="game.ended" class="game-state-ended">
+              <span>VS</span>
+            </div>
+            <div v-else-if="game.disconnected" class="game-state-disconnected">
+              <span>VS</span>
+            </div>
+            <div v-else-if="game.pending" class="game-state-pending">
               <span>VS</span>
             </div>
             <div v-else class="game-state-active"><span>VS</span></div>
@@ -191,6 +198,10 @@ export default {
     DisplayGame: function (gameID) {
       this.app.SendMessage('Base', 'GetGameStatus', gameID)
     },
+    Filter: function (participantName)
+    {
+      console.log(participantName)
+    }
   },
 }
 </script>
@@ -392,6 +403,7 @@ body {
   padding: 10px;
   border: 2px solid #ce1126;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .participant-scores {
@@ -457,7 +469,27 @@ body {
   left: 0px;
   bottom: 0px;
   width: 30px;
+  background-color: blue;
+  color: white;
+}
+
+.game-state-disconnected {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 30px;
   background-color: gray;
+  color: white;
+}
+
+.game-state-pending {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 30px;
+  background-color: orange;
   color: white;
 }
 
