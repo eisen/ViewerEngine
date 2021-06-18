@@ -22,9 +22,12 @@
             v-for="participant in participants"
             :key="participant.id"
             class="participant"
-            @click="Filter(participant.name)"
+            :class="{ selected: selectedParticipant === participant.id }"
+            @click="FilterGames(participant)"
           >
-            <div class="participant-name">{{ participant.name }}</div>
+            <div class="participant-name">
+              {{ participant.name }}
+            </div>
             <div class="participant-scores">
               <div class="participant-score">
                 W: {{ participant.win_count }}
@@ -56,9 +59,10 @@
         </div>
         <div v-else class="games">
           <div
-            v-for="game in games"
+            v-for="game in FilteredGames"
             :key="game.id"
             class="game"
+            :class="{ selected: selectedGame === game.id }"
             @click="DisplayGame(game.id)"
           >
             <div v-if="game.disconnected" class="game-state-disconnected">
@@ -109,6 +113,9 @@ export default {
       show: true,
       participants: [],
       games: [],
+      filter: '',
+      selectedParticipant: '',
+      selectedGame: '',
     }
   },
   computed: {
@@ -117,6 +124,15 @@ export default {
     },
     NoGames: function () {
       return this.games.length === 0
+    },
+    FilteredGames: function () {
+      if (this.filter === '') {
+        return this.games
+      } else {
+        return this.games.filter((game) => {
+          return game.black === this.filter || game.white === this.filter
+        })
+      }
     },
   },
   beforeMount: function () {
@@ -131,6 +147,7 @@ export default {
     socket.on('disconnect', () => {
       this.participants = []
       this.games = []
+      this.filter = ''
       this.app.SendMessage('Base', 'ClearBoard')
     })
   },
@@ -185,7 +202,7 @@ export default {
           this.app.SendMessage(
             'Base',
             'ConnectToServer',
-            'engine.rmd-hackathon.xyz:8080/viewers'
+            'localhost:8080/viewers'
           )
         })
         .catch((message) => {
@@ -196,12 +213,18 @@ export default {
   },
   methods: {
     DisplayGame: function (gameID) {
+      this.selectedGame = gameID
       this.app.SendMessage('Base', 'GetGameStatus', gameID)
     },
-    Filter: function (participantName)
-    {
-      console.log(participantName)
-    }
+    FilterGames: function (participant) {
+      if (this.filter === '' || this.filter !== participant.name) {
+        this.filter = participant.name
+        this.selectedParticipant = participant.id
+      } else {
+        this.filter = ''
+        this.selectedParticipant = ''
+      }
+    },
   },
 }
 </script>
@@ -406,6 +429,11 @@ body {
   cursor: pointer;
 }
 
+.selected {
+  background-color: #009245;
+  color: white;
+}
+
 .participant-scores {
   display: flex;
   justify-content: space-evenly;
@@ -546,15 +574,5 @@ body {
   bottom: 0px;
   width: 41px;
   border-left: 2px solid #ce1126;
-}
-
-.black-score {
-  background-color: white;
-  color: black;
-}
-
-.white-score {
-  background-color: white;
-  color: black;
 }
 </style>
