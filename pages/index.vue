@@ -61,13 +61,13 @@
             class="game"
             @click="DisplayGame(game.id)"
           >
-            <div v-if="game.ended" class="game-state-ended">
-              <span>VS</span>
-            </div>
-            <div v-else-if="game.disconnected" class="game-state-disconnected">
+            <div v-if="game.disconnected" class="game-state-disconnected">
               <span>VS</span>
             </div>
             <div v-else-if="game.pending" class="game-state-pending">
+              <span>VS</span>
+            </div>
+            <div v-else-if="game.ended" class="game-state-ended">
               <span>VS</span>
             </div>
             <div v-else class="game-state-active"><span>VS</span></div>
