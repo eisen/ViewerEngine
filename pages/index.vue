@@ -494,7 +494,9 @@ body {
 }
 
 .game-state-active > span,
-.game-state-ended > span {
+.game-state-ended > span,
+.game-state-pending > span,
+.game-state-disconnected > span {
   position: absolute;
   top: 50%;
   left: 50%;
