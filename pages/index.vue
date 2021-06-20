@@ -290,7 +290,11 @@ body {
 #rtx-logo {
   width: 100%;
   height: 100%;
-  background: url('static/TemplateData/rtx-logo.svg') no-repeat center;
+  background: url('static/TemplateData/hackathon-logo-red.svg') no-repeat center;
+  background-size: 50% 50%;
+  position: relative;
+  top: -160px;
+  right: -20px;
 }
 
 #rtx-progress-bar-empty {
@@ -301,7 +305,7 @@ body {
     center;
   position: absolute;
   left: 50%;
-  top: 56%;
+  top: 65%;
   z-index: 20;
   transform: translate(-50%, -50%);
 }
@@ -313,7 +317,7 @@ body {
     center;
   position: absolute;
   left: 50%;
-  top: 56%;
+  top: 65%;
   z-index: 20;
   transform: translate(-50%, -50%);
 }
